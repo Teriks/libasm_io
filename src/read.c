@@ -82,6 +82,7 @@ int read_kb()
 
 int read_kb()
 {
+
 	struct termios oldattr, newattr;
 	int ch;
 	tcgetattr( STDIN_FILENO, &oldattr );
@@ -123,7 +124,9 @@ char read_char()
 
 
 
-char * read_string(){
+char * read_string()
+{
+
     char * line = malloc(100), * linep = line;
     size_t lenmax = 100, len = lenmax;
     int c;
@@ -171,7 +174,8 @@ char * read_string(){
 
 
 //need an assembly stub, because it has a parameter
-char * read_file_impl(char * filename){
+char * read_file_impl(char * filename)
+{
 
 	char *file_contents=0;
 	long input_file_size;
