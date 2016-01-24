@@ -199,13 +199,6 @@ char * read_file_impl(char * filename)
 	}
 
 	return file_contents;
-
 }
-
-
-
-
-
-
 
 
