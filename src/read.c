@@ -105,6 +105,7 @@ int64_t read_int()
     return buffer;
 }
 
+
 int64_t read_uint()
 {
     uint64_t buffer;
@@ -121,42 +122,53 @@ char read_char()
 }
 
 
+
 char * read_string(){
     char * line = malloc(100), * linep = line;
     size_t lenmax = 100, len = lenmax;
     int c;
 
     if(line == NULL)
-	{
+    {
         return NULL;
-	}
+    }
 
-    for(;;) {
+    for(;;) 
+    {
         c = fgetc(stdin);
-        if(c == EOF){
+
+        if(c == EOF)
+        {
 	    *line=0;
             break;
-		}
+	}
 
-        if(--len == 0) {
+        if(--len == 0) 
+        {
             len = lenmax;
             char * linen = realloc(linep, lenmax *= 2);
 
-            if(linen == NULL) {
+            if(linen == NULL)
+            {
                 free(linep);
                 return NULL;
             }
+
             line = linen + (line - linep);
             linep = linen;
         }
 
-        if((*line++ = c) == '\n'){
+        if((*line++ = c) == '\n')
+        {
 	    *(line-1)=0;
             break;
-		}
+        }
     }
+
     return linep;
 }
+
+
 
 //need an assembly stub, because it has a parameter
 char * read_file_impl(char * filename){
