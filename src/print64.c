@@ -33,10 +33,10 @@
 
 int print_int_impl(int64_t v)
 {
-    return printf("%"PRId64, v);
+    return printf("%" PRId64, v);
 }
 
 int print_uint_impl(uint64_t v)
 {
-    return printf("%"PRIu64, v);
+    return printf("%" PRIu64, v);
 }

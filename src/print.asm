@@ -111,7 +111,7 @@ print_uint:
 	mov rbp, rsp
 	sub rsp, 32
 	mov rcx, rdi
-    call print_uint_impl
+	call print_uint_impl
 	add	rsp, 32
 	pop	rbp
 	ret
@@ -122,7 +122,7 @@ print_int:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
-    call print_int_impl
+	call print_int_impl
 	add	rsp, 32
 	pop	rbp
 	ret
@@ -131,7 +131,7 @@ print_uint:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
-    call print_uint_impl
+	call print_uint_impl
 	add	rsp, 32
 	pop	rbp
 	ret

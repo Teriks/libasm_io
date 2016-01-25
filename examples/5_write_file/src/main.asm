@@ -123,7 +123,7 @@ main:
 	;move the success code into memory, so we can tell the user if the file was written successfully or not
 	mov [rsp+16], rax
 	
-    ;write_file may have modified RDI and RSI so we need to move the file name string and file content string
+	;write_file may have modified RDI and RSI so we need to move the file name string and file content string
 	;back into registers from the stack so we can call free_mem on them, as they both use dynamically allocated memory
 	
 	;move the file name pointer into RDI and call free_mem on it

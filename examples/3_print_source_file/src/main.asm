@@ -84,7 +84,7 @@ main:
 	;move the filename pointer into RDI then call read_file to read the file into a string
 	;the string is in dynamical allocated memory so we will need to call free_mem on it later
 	mov rdi, QWORD filename
-    call read_file
+	call read_file
 
 	;mov the pointer to the string containing the file content into RDI, (its returned in RAX)
 	mov rdi, rax
@@ -107,7 +107,7 @@ main:
 	call free_mem
 
 
-    ;restore the stack frame of the function that called this function
+	;restore the stack frame of the function that called this function
 	;first add back the amount that we subtracted from RSP
 	;including any additional subtractions we made to RSP after the initial one (just sum them)
 	add	rsp, 32

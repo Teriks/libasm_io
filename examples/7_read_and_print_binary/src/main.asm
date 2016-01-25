@@ -176,7 +176,7 @@ main:
 	
 	call print_nl
 	
-		
+	
 	mov rdi, QWORD eqls
 	call print_string
 	

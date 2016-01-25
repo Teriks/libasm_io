@@ -76,7 +76,7 @@ read_and_print_number:
 	
 	;we want to print the value returned by read_int
 	;print_int uses RDI for the parameter, and we just restored the return value of read_int into RDI 
-    call print_int
+	call print_int
 	
 	;print a new line after the integer
 	call print_nl

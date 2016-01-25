@@ -55,10 +55,10 @@ read_file:
 read_file:
 	;If this is a Unix build, just pass the parameters straight through
 	;A valid call stack is still needed
-   	push rbp
+	push rbp
 	mov rbp, rsp
 	sub rsp, 32
-   	call read_file_impl
+	call read_file_impl
 	add	rsp, 32
 	pop	rbp
 	ret

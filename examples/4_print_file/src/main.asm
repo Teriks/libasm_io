@@ -101,7 +101,7 @@ main:
 		;two 64 bit integers allocated on the stack already
 		mov [rsp], rdi 
 		
-        ;read the file, the pointer to the file name of the file we want to read is in RDI
+		;read the file, the pointer to the file name of the file we want to read is in RDI
 		;read_file returns a pointer to a string in RAX, we need to call free_mem on this pointer
 		;later because it is dynamically allocated memory
 		call read_file
@@ -127,7 +127,7 @@ main:
 
 		;check if read_file returned 0
 		;if read_file returns 0, it means the file could not be read, either because it did not exist or there
-	    ;was some sort of read error
+		;was some sort of read error
 		cmp rax, 0
 
 		;jump out of the loop if we successfully read the files contents (if RAX is not 0)
@@ -145,8 +145,8 @@ main:
 		
 	;if we successfully read the file, this is where we jump out to
 	.read_file_done:
-       
-	   
+
+	
 	;move the pointer to the file content string into RDI, when we exited our loop
 	;we left the return value of read_file in RAX
 	mov rdi, rax
@@ -167,7 +167,7 @@ main:
 
 	
 	
-    ;restore the stack frame of the function that called this function
+	;restore the stack frame of the function that called this function
 	;first add back the amount that we subtracted from RSP
 	;including any additional subtractions we made to RSP after the initial one (just sum them)
 	add	rsp, 32

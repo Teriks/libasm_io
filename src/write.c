@@ -32,19 +32,17 @@ int write_file_impl(char *file, char *data, char *mode)
 {
 
     int rc = 0;
-	
-    FILE *fOut = fopen (file, mode);
 
-    if (fOut != NULL)
-    {
-        if (fputs (data, fOut) != EOF)
-        {
-            rc = 1;
-        }
+    FILE *fOut = fopen(file, mode);
 
-        if (fclose (fOut) == EOF) rc = 0;
+    if (fOut != NULL) {
+	if (fputs(data, fOut) != EOF) {
+	    rc = 1;
+	}
+
+	if (fclose(fOut) == EOF)
+	    rc = 0;
     }
-	
+
     return rc;
 }
-

@@ -126,29 +126,29 @@ fibs:
 	pop rbp
 	
 	ret		;return, leaving the result of fibs in the RAX register
-  
+
 
 
 ;the dot in front of the fibs_0 label makes it local to fibs, so it can be reused elsewhere if needed
 .fibs_0:
-  mov rax,0     ;RAX is the return value for fibs, return 0
+	mov rax,0     ;RAX is the return value for fibs, return 0
 
-  ;return the stack to its state prior to calling fibs, we could also use 'leave'
-  mov rsp, rbp
-  pop rbp
+	;return the stack to its state prior to calling fibs, we could also use 'leave'
+	mov rsp, rbp
+	pop rbp
 
-  ret
+	ret
 
 
 
 .fibs_1:
-  mov rax,1     ;RAX is the return value for fibs, return 1
+	mov rax,1     ;RAX is the return value for fibs, return 1
 
-  ;return the stack to its state prior to calling fibs, we could also use 'leave'
-  mov rsp, rbp
-  pop rbp
+	;return the stack to its state prior to calling fibs, we could also use 'leave'
+	mov rsp, rbp
+	pop rbp
 
-  ret
+	ret
 
 
 
@@ -223,7 +223,7 @@ print_fibs_up_to_n_without_recursion:
 	;   printf("%d\n",next);
 	;}
 	
-	push rbp            ;set up a new stack frame for this functions
+	push rbp	;set up a new stack frame for this functions
 	mov rbp, rsp
 	
 	sub rsp, 40+8			;room for 5x 64 bit variables, 8*5=40, we add 8 to align 40 to 16 bytes, because 48/16=3 which is even
@@ -236,14 +236,14 @@ print_fibs_up_to_n_without_recursion:
 	
 	
 	.loop:
-		cmp QWORD [RSP+8], 1		;compare [RSP+8] (c) to 1 
-		jnle .else                  ;if !(c<=1), jump to the else branch, jnle stands for 'jump if not less than or equal to'
+		cmp QWORD [RSP+8], 1            ;compare [RSP+8] (c) to 1 
+		jnle .else                      ;if !(c<=1), jump to the else branch, jnle stands for 'jump if not less than or equal to'
 		
-			mov rcx, [rsp+8]		;this moves [rsp+8] into [rsp+16], this represents: next=c; in the C code
+			mov rcx, [rsp+8]        ;this moves [rsp+8] into [rsp+16], this represents: next=c; in the C code
 			mov [rsp+16], rcx
 			jmp .end_else
 		
-		.else:                      ;this is the else branch
+		.else:                          ;this is the else branch
 		
 			mov rcx, [rsp+24]       ;mov [rsp+24] (first) into RCX so we can add it to [rsp+32] (second)
 			add rcx, QWORD [rsp+32]
@@ -262,12 +262,12 @@ print_fibs_up_to_n_without_recursion:
 		call print_int          ;prints the value in RDI
 		call print_nl           ;print a new line
 		
-		inc QWORD [rsp+8]		;increment [rsp+8] (counter) by 1 after the comparison
+		inc QWORD [rsp+8]               ;increment [rsp+8] (counter) by 1 after the comparison
 		
-		mov rcx, [rsp+8]		;mov [rsp+8] (c) into rcx, (its the counter)
-		cmp rcx, [rsp]			;compare [rsp+8] (c) counter to [rsp] (n)  (the upper limit)
+		mov rcx, [rsp+8]                ;mov [rsp+8] (c) into rcx, (its the counter)
+		cmp rcx, [rsp]                  ;compare [rsp+8] (c) counter to [rsp] (n)  (the upper limit)
 		
-		jle .loop				;if RCX (c) is less than or equal to [rsp] (n) jump to .loop
+		jle .loop                       ;if RCX (c) is less than or equal to [rsp] (n) jump to .loop
 	
 	
 	add rsp, 40+8       ;restore the stack to its previous state, before we called print_fibs_up_n, we could also use the 'leave' opcode
