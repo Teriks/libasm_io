@@ -69,7 +69,7 @@ append_file:
 	mov rcx, rdi
 	mov rdx, rsi
 	mov r8, QWORD append_mode
-    call write_file_impl
+	call write_file_impl
 	add	rsp, 32
 	pop	rbp
 	ret
