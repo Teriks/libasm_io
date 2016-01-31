@@ -1,17 +1,31 @@
 All functions in the library use the System V AMD64 ABI calling convention, even on Windows
 
-Parameter order for integral values is:
+The parameter order for integral values is:
+
 	rdi
 	rsi
 	rdx
 	rcx
 	r8
 	r9
-	(after the starting at the 7th parameter, the rest of the parameters are on the stack)
+
+There are no floating point parameters in used in this library, however
+the order for floating point values for the System V AMD64 ABI is:
+
+	XMM0
+	XMM1
+	XMM2
+	XMM3
+	XMM4
+	XMM5
+	XMM6
+	XMM7
+	
+
+Additional parameters are passed in order on the stack.
 
 
-And any functions that return integral/pointer values will return the value in the RAX register
-
+Any functions that return integral/pointer values will return the value in the RAX register
 
 
 The functions in this library will not save your registers before they are used,
