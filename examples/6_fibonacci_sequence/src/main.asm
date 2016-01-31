@@ -117,7 +117,7 @@ fibs:
 	call fibs
 	
 							;add the two terms, RAX already contains the second term, the call to fibs right above set RAX for us (on line 68)
-	add rax, QWORD [rsp+16]	;and [rsp+16] (variable 3) contains the first term because we moved it there above (on line 65)
+	add rax, QWORD [rsp+16]				;and [rsp+16] (variable 3) contains the first term because we moved it there above (on line 65)
 							;so we add them together, making sure RAX is on the left, so that RAX contains the result of the addition
 							;again, the QWORD before the memory address is required to tell the ADD insruction [rsp+16] is a pointer to a 64 bit quadword type
 	
