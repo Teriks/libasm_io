@@ -106,10 +106,10 @@ export INCLUDE_DIRECTORY_PATH:=${CURDIR}/$(INC_DIR)/
 export M_CC_FLAGS:=-m64 -D _LIBASM_IO_OBJFMT_$(OBJ_FORMAT_UPPER)_ $(CC_FLAGS)
 
 
-export M_AS_FLAGS:=						   \
--f $(OBJ_FORMAT)        				   \
--D _LIBASM_IO_BUILDING_ $(AS_FLAGS)        \
--I "$(INCLUDE_DIRECTORY_PATH)"             \
+export M_AS_FLAGS:=			\
+-f $(OBJ_FORMAT)			\
+-D _LIBASM_IO_BUILDING_ $(AS_FLAGS)	\
+-I "$(INCLUDE_DIRECTORY_PATH)"		\
 
 
 OBJS:=$(subst $(SRC_DIR),$(OBJ_DIR), $(ASM_FILES:.asm=$(OBJ_EXT)) $(C_FILES:.c=$(OBJ_EXT)))
@@ -122,10 +122,10 @@ all:  $(TARGET)
 
 .PHONY: examples
 examples: $(TARGET)
-	@for directory in $$(ls -d ./examples/*/) ; \
-		do  echo "=====================";       \
-		$(MAKE) -f make.p -w -C $$directory ;   \
-		done									\
+	@for directory in $$(ls -d ./examples/*/) ;	\
+		do  echo "=====================";	\
+		$(MAKE) -f make.p -w -C $$directory ;	\
+		done					\
 		
 	@echo "====================="
 	@echo "done"
@@ -133,10 +133,10 @@ examples: $(TARGET)
 
 .PHONY: clean_examples
 clean_examples:
-	@for directory in $$(ls -d ./examples/*/) ;       \
-		do  echo "=====================";             \
-		$(MAKE) -f make.p -w -C $$directory clean ;   \
-		done									      \
+	@for directory in $$(ls -d ./examples/*/) ;		\
+		do  echo "=====================";		\
+		$(MAKE) -f make.p -w -C $$directory clean ;	\
+		done						\
 		
 	@echo "====================="
 	@echo "done"
