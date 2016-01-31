@@ -377,7 +377,7 @@ fun_with_lea:
 	;
 	; if your affective address for memory operations do not meet processor constraints
 	; you will get an 'invalid effective address' error from nasm
-	; the constraints are a bit to long to describe here.
+	; the constraints are a bit too long to describe here.
 	;
 	; but you can read about effective addresses in nasm here:
 	;
@@ -386,7 +386,7 @@ fun_with_lea:
 
 	push rbp
 	mov rbp, rsp
-	sub rsp, 32	 
+	sub rsp, 32
 	
 	;calculate a bogus address and print the result.
 	;lea can be used for arithmetic on values that are not actually pointers
@@ -451,7 +451,7 @@ main:
 	
 	;On windows, we need a minimum of 32 bytes of stack space before calling
 	;any functions, RSP also always needs to be aligned to 16 bytes
-	;32/16 = 2,	 2 is a whole number which means 32 is indeed aligned to 16 bytes
+	;32/16 = 2, 2 is a whole number which means 32 is indeed aligned to 16 bytes
 	
 	;this is for compatibility, Linux and Mac can run programs with or without the stack pointer being aligned
 	;but on Windows if the stack is not aligned the program will crash
