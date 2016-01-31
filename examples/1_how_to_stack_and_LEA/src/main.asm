@@ -225,7 +225,8 @@ print_messages_example_v2:
 	; we would write into the calling functions stack frame and make it mad at us
 	; probably crashing the program
 	
-	; x86_64 is a little-endian architecture, it lays out the bytes of integers from low address to high address 
+	; x86_64 is a little-endian architecture, it lays out the bytes of integers from low address to high address
+	; starting with the least significant byte
 	;=================================
 
 	lea rax, [rel message_1a]
