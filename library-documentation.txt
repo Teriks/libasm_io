@@ -9,7 +9,7 @@ The parameter order for integral values is:
 	r8
 	r9
 
-There are no floating point parameters in used in this library, however
+There are no floating point parameters used in this library, however
 the order for floating point values for the System V AMD64 ABI is:
 
 	XMM0
