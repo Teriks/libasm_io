@@ -129,7 +129,8 @@ fibs:
 
 
 
-;the dot in front of the fibs_0 label makes it local to fibs, so it can be reused elsewhere if needed
+;the dot in front of the fibs_0 label makes it local to fibs, so the label name can be reused elsewhere if needed
+;without causing a symbol naming conflict
 .fibs_0:
 	mov rax, 0	;RAX is the return value for fibs, return 0
 
