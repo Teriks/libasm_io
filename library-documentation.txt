@@ -10,7 +10,8 @@ The parameter order for integral values is:
 	r9
 
 There are no floating point parameters used in this library, however
-the order for floating point values for the System V AMD64 ABI is:
+the register order for floating point arguments while calling functions 
+using the System V AMD64 ABI is:
 
 	XMM0
 	XMM1
