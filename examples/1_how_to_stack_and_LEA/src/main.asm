@@ -93,9 +93,9 @@ print_messages_example:
 	;the +8 is to align the stack pointer to 16 bytes, 56/16 = 3.5 and (56+8)/16=4.0
 	;to align to 16 bytes, the value has to be divisible by 16 evenly
 	
-	;64 bit windows requires the stack pointer be aligned to 16 bytes
-	;and also that the stack contains at least 32 bytes of space in all function calls that 
-	;call other functions, so this is for portability
+	;64 bit windows requires the stack pointer be aligned to 16 bytes.
+	;it also requires that the stack contain at least 32 bytes of space in all function calls that 
+	;call other functions, so the alignment here is for portability
 	
 	sub rsp, (56+8)
 	
