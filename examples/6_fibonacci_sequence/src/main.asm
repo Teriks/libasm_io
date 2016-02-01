@@ -242,6 +242,7 @@ print_fibs_up_to_n_without_recursion:
 	.loop:
 		cmp QWORD [RSP+8], 1		;compare [RSP+8] (c) to 1 
 		jnle .else			;if !(c<=1), jump to the else branch, jnle stands for 'jump if not less than or equal to'
+						;this is a bit of an inversion to whats seen in the C code above, but it accomplishes the same thing
 		
 			mov rcx, [rsp+8]	;this moves [rsp+8] into [rsp+16], this represents: next=c; in the C code
 			mov [rsp+16], rcx
