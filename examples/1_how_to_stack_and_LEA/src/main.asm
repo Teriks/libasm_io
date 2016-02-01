@@ -95,7 +95,7 @@ print_messages_example:
 	
 	;64 bit windows requires the stack pointer be aligned to 16 bytes.
 	;it also requires that the stack contain at least 32 bytes of space in all function calls that 
-	;call other functions, so the alignment here is for portability
+	;call other functions.  The alignment here is for portability
 	
 	sub rsp, (56+8)
 	
