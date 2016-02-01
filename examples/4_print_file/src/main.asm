@@ -98,7 +98,7 @@ main:
 		
 		;save RDI in case read_file modifies it
 		;we do this by moving it to a location on the stack, [RSP] will work since we have space for
-		;two 64 bit integers allocated on the stack already
+		;four 64 bit integers allocated on the stack already and RDI constitutes just one
 		mov [rsp], rdi 
 		
 		;read the file, the pointer to the file name of the file we want to read is in RDI
