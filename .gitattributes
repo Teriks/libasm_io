@@ -1,0 +1,9 @@
+*.sh		text eol=lf
+*.asm		text eol=lf
+*.c		text eol=lf
+*.p		text eol=lf
+*.txt		text eol=auto
+
+makefile	text eol=lf
+
+
