@@ -91,7 +91,7 @@ main:
 	
 	;save the pointer to the string so we can call free_mem on it later
 	;we do this by moving it to a location on the stack, [RSP] will work since we have space for
-	;two 64 bit integers allocated on the stack already
+	;four 64 bit integers allocated on the stack already, and we are only placing one into memory
 	mov [rsp], rdi
 
 	;print the string at the pointer in RDI
