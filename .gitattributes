@@ -5,5 +5,5 @@
 *.txt		text
 
 makefile	text eol=lf
-
+LICENSE text
 
