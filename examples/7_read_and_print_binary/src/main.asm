@@ -94,7 +94,7 @@ read_binary:
 
 
 	;character code 48 = '0', and 49 = '1', you can convert the character code
-	;to a number by subtracting 48 if its ASCII or UTF8, lets hope it is.
+	;to a number by subtracting 48 if it's ASCII or UTF8, lets hope it is.
 	;lets also hope that its just 1's and 0's :)
 	sub rdi, 48
 	
