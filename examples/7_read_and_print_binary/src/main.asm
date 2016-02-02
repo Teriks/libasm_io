@@ -144,7 +144,7 @@ print_binary:
 	shr rax, cl
 	mov QWORD [rsp+16], rax
 	
-	;boolean and with 1
+	;bitwise and with 1
 	and rax, 1
 	mov rdi, rax
 	call print_int
