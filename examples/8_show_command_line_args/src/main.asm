@@ -90,7 +90,7 @@ main:
 	%endif
 	
 	
-	;RDI contains an element count for the items in RDI
+	;RDI contains an element count for the items in RSI
 	;RSI contains pointer to an array of pointers, (array of pointers to strings)
 	
 	mov QWORD [rsp], 0 ;[RSP] is our loop counter here
