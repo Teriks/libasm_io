@@ -66,10 +66,12 @@ read_binary:
 	mov rbp,rsp
 	sub rsp, 32
 	
+	;local variable on the stack, we are going to shift this left
+	;and add bits from the binary string to accumulate the decimal value
+	mov QWORD [rsp], 0
 	
-
-	mov QWORD [rsp],0
-	mov QWORD [rsp+8],0
+	;a counter so we can limit the input to 64 characters (bits)
+	mov QWORD [rsp+8], 0 
 	
 	.loop:
 	
@@ -77,24 +79,38 @@ read_binary:
 	mov rdi, rax
 	
 	;check for a new line, if there is one then jump out of the loop
-	cmp rdi,10
+	cmp rdi, 10
 	je .outloop
 	
+	;compare [rsp+8] to 64
+	cmp QWORD [rsp+8], 64
 	
-	;shift [rsp+8] left by one and assign it to itself
-	shl QWORD [rsp+8],1
+	;jump out of the loop if [rsp+8] is not less than 64
+	jnl .outloop
+	
+	
+	;shift [rsp] left by one and assign it to itself
+	shl QWORD [rsp], 1
 
 
 	;character code 48 = '0', and 49 = '1', you can convert the character code
-	;to a number by subtracting 48
+	;to a number by subtracting 48 if its ASCII or UTF8, lets hope it is.
+	;lets also hope that its just 1's and 0's :)
 	sub rdi, 48
-	add QWORD [rsp+8], rdi
+	
+	;accumulate the new bit after shifting left above
+	add QWORD [rsp], rdi
+	
+	
+	;increment the counter so we are able to check if we have read 64 characters
+	inc QWORD [rsp+8]
+	
 
 	jmp .loop
 	
 	.outloop:
 	
-	mov	rax, QWORD[rsp+8]
+	mov	rax, QWORD[rsp]
 
 	add rsp, 32
 	pop rbp
@@ -123,6 +139,7 @@ print_binary:
 	;which fits in a byte [0-255]
 	mov rcx, QWORD [rsp]
 	mov rax, [rsp+8]
+	
 	;shift right by the amount in the counter
 	shr rax, cl
 	mov QWORD [rsp+16], rax
