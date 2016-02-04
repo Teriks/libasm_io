@@ -104,7 +104,7 @@ fibs:
 				;the QWORD before the memory address tells the assembler [rsp] contains a 64 bit quadword type, the type specification is required here
 	
 	
-	mov [rsp+8], rdi	;these two instructions set [RSP] to N-2 in a similar manner as above
+	mov [rsp+8], rdi	;these two instructions set [RSP+8] to N-2 in a similar manner as above
 	sub QWORD [rsp+8], 2
 	
 	
