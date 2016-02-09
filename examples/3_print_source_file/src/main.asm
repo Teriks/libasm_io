@@ -86,7 +86,7 @@ main:
 	mov rdi, QWORD filename
 	call read_file
 
-	;mov the pointer to the string containing the file content into RDI, (its returned in RAX)
+	;mov the pointer to the string containing the file content into RDI, (it's returned in RAX)
 	mov rdi, rax
 	
 	;save the pointer to the string so we can call free_mem on it later
