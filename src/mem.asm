@@ -45,17 +45,18 @@ section .text
 
 
 %ifdef _LIBASM_IO_ABI_WINDOWS_
-;Converts the windows calling convention for 'malloc' and 'free' into the System V calling convention
-;so the API is consistent across platforms
+
+; Converts the windows calling convention for 'malloc' and 'free' into the System V calling convention
+; so the API is consistent across platforms
 
 free_mem:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32  
-	mov	rcx, rdi
+	mov rcx, rdi
 	call free
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 	
@@ -63,22 +64,22 @@ alloc_mem:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32  
-	mov	rcx, rdi
+	mov rcx, rdi
 	call malloc
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 %else
 
-;Otherwise, just pass the parameters in the registers straight through
+; Otherwise, just pass the parameters in the registers straight through
 
 free_mem:
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32  
 	libc_call free
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 	
@@ -87,8 +88,8 @@ alloc_mem:
 	mov rbp, rsp
 	sub rsp, 32  
 	libc_call malloc
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %endif

@@ -59,7 +59,8 @@ section .text
 printf_portable:
 
 %ifdef _LIBASM_IO_ABI_WINDOWS_
-	;Converts the windows calling convention for 'printf' into the System V calling convention
+
+	; Converts the windows calling convention for 'printf' into the System V calling convention
    
 	push rbp
 	mov rbp, rsp
@@ -72,7 +73,8 @@ printf_portable:
 	ret
 	
 %else
-	;Otherwise, just pass the parameters in the registers straight through
+
+	; Otherwise, just pass the parameters in the registers straight through
 
 	push rbp
 	mov rbp, rsp
@@ -89,8 +91,9 @@ printf_portable:
 
 
 
-;print_int and print_uint are done in C to make the format specifier draw from
-;inttypes.h, for portability
+; print_int and print_uint are done in C to make the format specifier draw from
+; inttypes.h, for portability
+
 %ifdef _LIBASM_IO_ABI_WINDOWS_
 
 print_int:
@@ -99,9 +102,9 @@ print_int:
 	mov rbp, rsp
 	sub rsp, 32
 	mov rcx, rdi
-    call print_int_impl
-	add	rsp, 32
-	pop	rbp
+	call print_int_impl
+	add rsp, 32
+	pop rbp
 	ret
 	
 	
@@ -112,8 +115,8 @@ print_uint:
 	sub rsp, 32
 	mov rcx, rdi
 	call print_uint_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %else
@@ -123,8 +126,8 @@ print_int:
 	mov rbp, rsp
 	sub rsp, 32
 	call print_int_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 print_uint:
@@ -132,8 +135,8 @@ print_uint:
 	mov rbp, rsp
 	sub rsp, 32
 	call print_uint_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %endif
@@ -156,7 +159,8 @@ print_string:
 	
 	
 
-;print a character, using the character code in rdi
+; print a character, using the character code in rdi
+
 print_char:
 	push rbp
 	mov rbp, rsp
@@ -170,7 +174,8 @@ print_char:
 
 
 
-;print a new line character
+; print a new line character
+
 print_nl:
 	push rbp
 	mov rbp, rsp
@@ -185,7 +190,8 @@ print_nl:
 
 
 
-;print the address contained in the rdi register
+; print the address contained in the rdi register
+
 print_address:
 	push rbp
 	mov rbp, rsp

@@ -39,28 +39,28 @@ section .text
 %ifdef _LIBASM_IO_ABI_WINDOWS_
 
 read_file:
-	;Windows uses RCX for the first parameter to C calls
-	;Windows returns in RAX though like Unix so no need to mess with that
+	; Windows uses RCX for the first parameter to C calls
+	; Windows returns in RAX though like Unix so no need to mess with that
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
 	mov rcx, rdi
 	call read_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %else
 
 read_file:
-	;If this is a Unix build, just pass the parameters straight through
-	;A valid call stack is still needed
+	; If this is a Unix build, just pass the parameters straight through
+	; A valid call stack is still needed
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
 	call read_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %endif

@@ -46,8 +46,8 @@ section .text
 %ifdef _LIBASM_IO_ABI_WINDOWS_
 
 write_file:
-	;Windows uses RCX for the first parameter to C calls, RDX for the second and R8 for the third
-	;Windows returns in RAX though like Unix so no need to mess with that
+	; Windows uses RCX for the first parameter to C calls, RDX for the second and R8 for the third
+	; Windows returns in RAX though like Unix so no need to mess with that
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
@@ -55,14 +55,14 @@ write_file:
 	mov rdx, rsi
 	mov r8, QWORD write_mode
 	call write_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 	
 append_file:
-	;Windows uses RCX for the first parameter to C calls, RDX for the second and R8 for the third
-	;Windows returns in RAX though like Unix so no need to mess with that
+	; Windows uses RCX for the first parameter to C calls, RDX for the second and R8 for the third
+	; Windows returns in RAX though like Unix so no need to mess with that
 	push rbp
 	mov rbp, rsp
 	sub rsp, 32
@@ -70,8 +70,8 @@ append_file:
 	mov rdx, rsi
 	mov r8, QWORD append_mode
 	call write_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %else
@@ -85,8 +85,8 @@ write_file:
 	sub rsp, 32
 	mov rdx, QWORD write_mode
 	call write_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 append_file:
@@ -98,8 +98,8 @@ append_file:
 	sub rsp, 32
 	mov rdx, QWORD append_mode
 	call write_file_impl
-	add	rsp, 32
-	pop	rbp
+	add rsp, 32
+	pop rbp
 	ret
 	
 %endif
