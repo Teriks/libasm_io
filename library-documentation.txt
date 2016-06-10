@@ -2,25 +2,25 @@ All functions in the library use the System V AMD64 ABI calling convention, even
 
 The parameter order for integral values is:
 
-	rdi
-	rsi
-	rdx
-	rcx
-	r8
-	r9
+  rdi
+  rsi
+  rdx
+  rcx
+  r8
+  r9
 
 There are no floating point parameters used in this library, however
 the register order for floating point arguments while calling functions 
 using the System V AMD64 ABI is:
 
-	XMM0
-	XMM1
-	XMM2
-	XMM3
-	XMM4
-	XMM5
-	XMM6
-	XMM7
+  XMM0
+  XMM1
+  XMM2
+  XMM3
+  XMM4
+  XMM5
+  XMM6
+  XMM7
 	
 
 Additional parameters are passed in order on the stack.
@@ -102,7 +102,6 @@ like so:
 
 cglobal main
 
-
 ========
 
 All the 'cglobal' macro does is put an underscore in front of the symbol name 'main'
@@ -119,10 +118,6 @@ if needed.
 
 
 So you can reference the symbol as 'main' no matter what platform you are on (when you use the cglobal macro).
-
-
-
-======================================================
 
 
 
@@ -161,7 +156,6 @@ _LIBASM_IO_OBJFMT_MACHO64_
 
 
 
-
 =============================================
 ===  _LIBASM_IO_ABI_{ABI Specification}_ ====
 
@@ -179,7 +173,6 @@ _LIBASM_IO_ABI_WINDOWS_
 # On Unix platforms like Linux, *BSD and MacOS: 
 
 _LIBASM_IO_ABI_SYSTEMV_
-
 
 
 
@@ -210,16 +203,10 @@ _LIBASM_IO_PLATFORM_TYPE_DARWIN_
 
 
 
-======================
-
-
-
-
 
 ////////////////////////////////////
 ////   Library Macros   ////////////
 ////////////////////////////////////
-
 
 
 
@@ -256,8 +243,6 @@ extern mycfunction
 
 
 
-
-
 ======================
 ====== cglobal =======
 
@@ -283,8 +268,6 @@ global main
 # depending on your platform...
 
 # It's useful because Mac will expect '_main' as the entry point, while Windows and Linux will expect 'main'
-
-
 
 
 
@@ -315,16 +298,11 @@ call_libc printf
 # Note: calling conventions/parameter passing will still vary across platform for raw C functions in general
 
 
-=======================
-
-
-
 
 
 ////////////////////////////////////
 ////   Library Functions   /////////
 ////////////////////////////////////
-
 
 
 
@@ -514,7 +492,4 @@ RAX <- read_uint
 # read an ASCII character code from the keyboard and store it in RAX, (waits for keypress)
 
 RAX <- read_kb
-
-
-
 
