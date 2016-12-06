@@ -141,6 +141,9 @@ def clean(target):
     target.print("rm -rf ./obj")
     try:
         shutil.rmtree("bin")
+    except FileNotFoundError:
+        pass
+    try:
         shutil.rmtree("obj")
     except FileNotFoundError:
         pass
