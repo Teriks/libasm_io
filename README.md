@@ -27,7 +27,11 @@ change to the root directory.
 
 ```
 
-Documented Targets:
+# Default Targets:
+
+build_library
+
+# Documented Targets:
 
 build_examples  # Build all of the library examples
 
@@ -38,6 +42,7 @@ clean           # Clean the library.
 clean_all       # Clean the library and library examples.
 
 clean_examples  # Clean the library examples.
+
 
 ```
 
