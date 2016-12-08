@@ -108,18 +108,16 @@ def libasm_io_defines(target):
 def compile_asm(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    with ThreadPoolExecutor(max_workers=5) as exe:
-        for i in zip(target.outdated_inputs, target.outdated_outputs):
-            exe.submit(target.execute, [assembler] + m_as_flags + [i[0], "-o", i[1]])
+    for i in zip(target.outdated_inputs, target.outdated_outputs):
+        target.execute([assembler] + m_as_flags + [i[0], "-o", i[1]])
 
 
 @make.target(inputs=c_files, outputs=c_objects)
 def compile_c(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    with ThreadPoolExecutor(max_workers=5) as exe:
-        for i in zip(target.outdated_inputs, target.outdated_outputs):
-            exe.submit(target.execute, [compiler] + m_cc_flags + ["-c", i[0], "-o", i[1]])
+    for i in zip(target.outdated_inputs, target.outdated_outputs):
+        target.execute([compiler] + m_cc_flags + ["-c", i[0], "-o", i[1]])
 
 
 @make.target(outputs=library_target, depends=[compile_asm, compile_c],
@@ -132,9 +130,8 @@ def build_library(target):
 
 @make.target(depends=build_library, info="Build all of the library examples")
 def build_examples(target):
-    with ThreadPoolExecutor(max_workers=5) as exe:
-        for d in glob.glob('examples/*/'):
-            target.run_script('examples/pakefile.py', "-C", d, "-j", make.get_max_jobs())
+    for d in glob.glob('examples/*/'):
+        target.run_script('examples/pakefile.py', "-C", d, "-j", make.get_max_jobs())
 
 
 @make.target(info="Clean the library.")
@@ -146,9 +143,8 @@ def clean(target):
 
 @make.target(info="Clean the library examples.")
 def clean_examples(target):
-    with ThreadPoolExecutor(max_workers=5) as exe:
-        for d in glob.glob('examples/*/'):
-            exe.submit(target.run_script, 'examples/pakefile.py', "clean", "-C", d, "-j", make.get_max_jobs())
+    for d in glob.glob('examples/*/'):
+        target.run_script('examples/pakefile.py', "clean", "-C", d, "-j", make.get_max_jobs())
 
 
 @make.target(depends=[clean, clean_examples], 
