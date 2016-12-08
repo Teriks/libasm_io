@@ -8,6 +8,39 @@ It was written to assist students learning Intel style assembly language.  The A
 
 see: [library-documentation.txt](/library-documentation.txt)
 
-# Build Instructions
+# (Make) Build Instructions
 
 see: [build-readme.txt](/build-readme.txt)
+
+
+# Build with pake
+
+install python3.4+, python3-pip, nasm and gcc.
+
+install pake (Pre-Alpha):
+
+`sudo pip3 install git+git://github.com/Teriks/pake.git`
+
+change to the root directory.
+
+`pake -ti` lists all documented targets:
+
+```
+
+Documented Targets:
+
+build_examples  # Build all of the library examples
+
+build_library   # Build the library.
+
+clean           # Clean the library.
+
+clean_all       # Clean the library and library examples.
+
+clean_examples  # Clean the library examples.
+
+```
+
+Running `pake` will run the default target "build_library".
+
+Running `pake build_examples` will build the library and examples together.
