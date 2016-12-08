@@ -1,8 +1,6 @@
 import os
-import pake
 import glob
-import subprocess
-import shutil
+import pake
 
 
 make = pake.init()

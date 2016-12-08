@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 
 import os
-import subprocess
 import glob
 import pake
-import shutil
+import pake.process
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -24,9 +23,9 @@ inc_dir="include"
 lib_name = "libasm_io.a"
 
 
-platform_type = subprocess.check_output(["bash", "./platform.sh", "platform_type"]).decode('utf-8').strip()
+platform_type = ''.join(pake.process.execute(["bash", "./platform.sh", "platform_type"])).strip()
 
-libc_pic = subprocess.check_output(["bash", "./platform.sh", "libc_pic"]).decode('utf-8').strip()
+libc_pic = ''.join(pake.process.execute(["bash", "./platform.sh", "libc_pic"])).strip()
 
 c_symbol_underscores="plain"
 
@@ -96,7 +95,7 @@ def libasm_io_libc_call(target):
 
 @make.target(outputs=os.path.join(inc_dir, "libasm_io_defines.inc"))
 def libasm_io_defines(target):
-    abi = subprocess.check_output(["bash", "platform.sh", "abi"]).decode('utf-8').strip()
+    abi = ''.join(target.execute(["bash", "platform.sh", "abi"], silent=True))
     with open(target.outputs[0], 'w+') as inc_file:
         print('%define _LIBASM_IO_OBJFMT_{t}_'.format(t=obj_format_upper), file=inc_file)
         print('%define _LIBASM_IO_ABI_{t}_'.format(t=abi), file=inc_file)
