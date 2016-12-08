@@ -41,20 +41,18 @@ c_objects = [os.path.join(obj_dir, os.path.basename(i.replace(".c", obj_ext))) f
 
 @make.target(inputs=asm_files, outputs=asm_objects)
 def compile_asm(target):
-    pake.ensure_path_exists(obj_dir)
+    file_helper = pake.FileHelper(target)
+    file_helper.makedirs(obj_dir)
     for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.print("{asm} {inp} -> {outp}".format(asm=assembler, inp=i[0], outp=i[1]))
-        cmd = [assembler] + as_flags + [i[0], "-o", i[1]]
-        subprocess.call(cmd)
+        target.execute([assembler] + as_flags + [i[0], "-o", i[1]])
         
 
 @make.target(inputs=c_files, outputs=c_objects)
 def compile_c(target):
-    pake.ensure_path_exists(obj_dir)
+    file_helper = pake.FileHelper(target)
+    file_helper.makedirs(obj_dir)
     for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.print("{cc} {inp} -> {outp}".format(cc=compiler, inp=i[0], outp=i[1]))
-        cmd = [compiler] + cc_flags + [i[0], "-o", i[1]]
-        subprocess.call(cmd)
+        target.execute([compiler] + cc_flags + [i[0], "-o", i[1]])
 
 library_depends = []
 
@@ -67,24 +65,18 @@ if len(asm_files) > 0:
 
 @make.target(outputs=exe_target, depends=library_depends)
 def build_library(target):
-    pake.ensure_path_exists(bin_dir)
-    target.print("{cc} {inp} -> {outp}".format(cc=compiler, inp=target.dependency_outputs, outp=exe_target))
-    cmd = [compiler] + link_flags + target.dependency_outputs + [asm_lib_path, "-o", exe_target]
-    subprocess.call(cmd)
+    file_helper = pake.FileHelper(target)
+    file_helper.makedirs(bin_dir)
+    target.execute(
+    [compiler] + link_flags + target.dependency_outputs + [asm_lib_path, "-o", exe_target]
+    )
 
 
 @make.target	
 def clean(target):
-    target.print("rm -rf ./bin")
-    target.print("rm -rf ./obj")
-    try:
-        shutil.rmtree("bin")
-    except FileNotFoundError:
-        pass
-    try:
-        shutil.rmtree("obj")
-    except FileNotFoundError:
-        pass
+    file_helper = pake.FileHelper(target)
+    file_helper.removedirs("bin")
+    file_helper.removedirs("obj")
 
 
 pake.run(make, default_targets=build_library)
