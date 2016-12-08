@@ -44,3 +44,8 @@ clean_examples  # Clean the library examples.
 Running `pake` will run the default target "build_library".
 
 Running `pake build_examples` will build the library and examples together.
+
+
+You can also specify a compiler or nasm compatible assembler using pake defines:
+
+`pake -D CC=clang -D AS=(your assembler)`
