@@ -48,6 +48,7 @@ elif platform_type == "CYGWIN":
         compiler='gcc'
 else:
     print("Cannot compile on this platform, platform unknown")
+    exit(1)
 
 
 obj_format_upper = obj_format.upper()
@@ -136,8 +137,8 @@ def build_examples(target):
 @make.target(info="Clean the library.")
 def clean(target):
     file_helper = pake.FileHelper(target)
-    file_helper.removedirs("bin")
-    file_helper.removedirs("obj")
+    file_helper.rmtree("bin")
+    file_helper.rmtree("obj")
 
 
 @make.target(info="Clean the library examples.")
