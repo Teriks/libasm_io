@@ -73,8 +73,8 @@ def build_library(target):
 @make.target	
 def clean(target):
     file_helper = pake.FileHelper(target)
-    file_helper.removedirs("bin")
-    file_helper.removedirs("obj")
+    file_helper.rmtree("bin")
+    file_helper.rmtree("obj")
 
 
 pake.run(make, default_targets=build_library)
