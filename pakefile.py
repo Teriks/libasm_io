@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 make = pake.init()
 
+force_fpic = make.get_define('FPIC', False)
 
 compiler = make.get_define('CC', 'cc')
 assembler = make.get_define('AS', 'nasm')
@@ -25,7 +26,10 @@ lib_name = 'libasm_io.a'
 
 platform_type = subprocess.check_output(['bash', './platform.sh', 'platform_type']).decode().strip()
 
-libc_pic = subprocess.check_output(['bash', './platform.sh', 'libc_pic']).decode().strip()
+if force_fpic:
+    libc_pic = 'pic'
+else:
+    libc_pic = subprocess.check_output(['bash', './platform.sh', 'libc_pic']).decode().strip()
 
 c_symbol_underscores='plain'
 

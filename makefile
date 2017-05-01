@@ -51,7 +51,11 @@ LINK_FLAGS =
 
 PLATFORM_TYPE:=$(shell ./platform.sh platform_type)
 
-LIBC_PIC:=$(shell ./platform.sh libc_pic)
+ifdef FPIC
+    LIBC_PIC:='pic'
+else
+    LIBC_PIC:=$(shell ./platform.sh libc_pic)
+endif
 
 
 C_SYMBOL_UNDERSCORES=plain
