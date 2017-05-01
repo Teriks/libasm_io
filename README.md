@@ -42,21 +42,17 @@ change to the root directory.
 
 ```
 
-# Default Targets:
+# Default Tasks
 
 build_library
 
-# Documented Targets:
+# Documented Tasks
 
-build_examples  # Build all of the library examples
-
-build_library   # Build the library.
-
-clean           # Clean the library.
-
-clean_all       # Clean the library and library examples.
-
-clean_examples  # Clean the library examples.
+clean_examples:  Clean the library examples.
+clean:           Clean the library
+build_examples:  Build all of the library examples
+clean_all:       Clean the library and library examples.
+build_library:   Build the library.
 
 
 ```
