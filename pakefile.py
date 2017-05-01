@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 import os
-import glob
 import pake
-import pake.process
+import glob
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -23,9 +23,9 @@ inc_dir='include'
 lib_name = 'libasm_io.a'
 
 
-platform_type = ''.join(pake.process.execute(['bash', './platform.sh', 'platform_type'])).strip()
+platform_type = subprocess.check_output(['bash', './platform.sh', 'platform_type']).decode().strip()
 
-libc_pic = ''.join(pake.process.execute(['bash', './platform.sh', 'libc_pic'])).strip()
+libc_pic = subprocess.check_output(['bash', './platform.sh', 'libc_pic']).decode().strip()
 
 c_symbol_underscores='plain'
 
@@ -64,11 +64,11 @@ m_cc_flags=['-m64', '-D', '_LIBASM_IO_OBJFMT_'+obj_format_upper+'_']
 m_as_flags = ['-f', obj_format, '-D', '_LIBASM_IO_BUILDING_', '-I', include_directory_path+'/']
 
 
-asm_files = glob.glob(os.path.join(src_dir, '*.asm'))
-c_files = glob.glob(os.path.join(src_dir, '*.c'))
+asm_files = pake.glob(os.path.join(src_dir, '*.asm'))
+c_files = pake.glob(os.path.join(src_dir, '*.c'))
 
-asm_objects = [os.path.join(obj_dir, os.path.basename(i.replace('.asm', obj_ext))) for i in asm_files]
-c_objects = [os.path.join(obj_dir, os.path.basename(i.replace('.c', obj_ext))) for i in c_files]
+asm_objects = pake.pattern(os.path.join(obj_dir,'%'+obj_ext))
+c_objects = pake.pattern(os.path.join(obj_dir,'%'+obj_ext))
 
 
 pake.export('AS', assembler)
@@ -80,62 +80,66 @@ pake.export('M_CC_FLAGS', m_cc_flags)
 pake.export('M_AS_FLAGS', m_as_flags)
 
 
-@make.target(inputs=os.path.join(inc_dir, 'libasm_io_cdecl_'+c_symbol_underscores+'.inc'),
-             outputs=os.path.join(inc_dir, 'libasm_io_cdecl.inc'))
+@make.task(i=os.path.join(inc_dir, 'libasm_io_cdecl_'+c_symbol_underscores+'.inc'),
+           o=os.path.join(inc_dir, 'libasm_io_cdecl.inc'))
 def libasm_io_cdecl(target):
     file_helper = pake.FileHelper(target)
     file_helper.copy(target.inputs[0], target.outputs[0])
 
 
-@make.target(inputs=os.path.join(inc_dir, 'libasm_io_libc_call_'+libc_pic+'.inc'), 
-             outputs=os.path.join(inc_dir, 'libasm_io_libc_call.inc'))
+@make.task(i=os.path.join(inc_dir, 'libasm_io_libc_call_'+libc_pic+'.inc'), 
+           o=os.path.join(inc_dir, 'libasm_io_libc_call.inc'))
 def libasm_io_libc_call(target):
     file_helper = pake.FileHelper(target)
     file_helper.copy(target.inputs[0], target.outputs[0])
 
 
-@make.target(outputs=os.path.join(inc_dir, 'libasm_io_defines.inc'))
+@make.task(o=os.path.join(inc_dir, 'libasm_io_defines.inc'))
 def libasm_io_defines(target):
-    abi = ''.join(target.execute(['bash', 'platform.sh', 'abi'], silent=True)).strip()
+    abi = subprocess.check_output(['bash', 'platform.sh', 'abi']).decode().strip()
     with open(target.outputs[0], 'w+') as inc_file:
         print('%define _LIBASM_IO_OBJFMT_{t}_'.format(t=obj_format_upper), file=inc_file)
         print('%define _LIBASM_IO_ABI_{t}_'.format(t=abi), file=inc_file)
         print('%define _LIBASM_IO_PLATFORM_TYPE_{t}_'.format(t=platform_type), file=inc_file)
 
 
-@make.target(inputs=asm_files, outputs=asm_objects, 
-             depends=[libasm_io_cdecl, libasm_io_libc_call, libasm_io_defines])
+@make.task(libasm_io_cdecl, libasm_io_libc_call, libasm_io_defines,
+           i=asm_files, o=asm_objects)
 def compile_asm(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.execute([assembler] + m_as_flags + [i[0], '-o', i[1]])
+    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
+        target.call([assembler] + m_as_flags + [i, '-o', o])
 
 
-@make.target(inputs=c_files, outputs=c_objects)
+@make.task(i=c_files, o=c_objects)
 def compile_c(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.execute([compiler] + m_cc_flags + ['-c', i[0], '-o', i[1]])
+    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
+        target.call([compiler] + m_cc_flags + ['-c', i, '-o', o])
 
 
-@make.target(outputs=library_target, depends=[compile_asm, compile_c],
-             info='Build the library.')
+@make.task(compile_asm, compile_c, o=library_target)
 def build_library(target):
+    """Build the library."""
+
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(bin_dir)
-    target.execute(['ar', 'rcs', library_target]+target.dependency_outputs)
+    target.call(['ar', 'rcs', library_target]+target.dependency_outputs)
 
 
-@make.target(depends=build_library, info='Build all of the library examples')
+@make.task(build_library)
 def build_examples(target):
+    """Build all of the library examples"""
+
     for d in glob.glob('examples/*/'):
-        target.run_pake('examples/pakefile.py', '-C', d, '-j', make.get_max_jobs())
+        target.subpake('examples/pakefile.py', '-C', d, '-j', pake.get_max_jobs())
 
 
-@make.target(info='Clean the library.')
+@make.task
 def clean(target):
+    """Clean the library"""
     file_helper = pake.FileHelper(target)
     file_helper.remove(os.path.join(inc_dir, 'libasm_io_defines.inc'))
     file_helper.remove(os.path.join(inc_dir, 'libasm_io_libc_call.inc'))
@@ -144,17 +148,19 @@ def clean(target):
     file_helper.rmtree('obj')
 
 
-@make.target(info='Clean the library examples.')
+@make.task
 def clean_examples(target):
+    """Clean the library examples."""
+
     for d in glob.glob('examples/*/'):
-        target.run_pake('examples/pakefile.py', 'clean', '-C', d, '-j', make.get_max_jobs())
+        target.subpake('examples/pakefile.py', 'clean', '-C', d, '-j', pake.get_max_jobs())
 
 
-@make.target(depends=[clean, clean_examples], 
-             info='Clean the library and library examples.')
+@make.task(clean, clean_examples)
 def clean_all():
+    """Clean the library and library examples."""
     pass
 
 
-pake.run(make, default_targets=build_library)
+pake.run(make, tasks=build_library)
 

@@ -29,52 +29,38 @@ cc_flags = make.get_define('M_CC_FLAGS', [])
 as_flags = make.get_define('M_AS_FLAGS', [])
 
 
-asm_files = glob.glob('src/*.asm')
-c_files = glob.glob('src/*.c')
-
-
-asm_objects = [os.path.join(obj_dir, os.path.basename(i.replace('.asm', obj_ext))) for i in asm_files]
-c_objects = [os.path.join(obj_dir, os.path.basename(i.replace('.c', obj_ext))) for i in c_files]
-
-
-@make.target(inputs=asm_files, outputs=asm_objects)
+@make.task(i=pake.glob('src/*.asm'), 
+           o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_asm(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.execute([assembler] + as_flags + [i[0], '-o', i[1]])
+    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
+        target.call([assembler] + as_flags + [i, '-o', o])
         
 
-@make.target(inputs=c_files, outputs=c_objects)
+@make.task(i=pake.glob('src/*.c'), 
+           o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_c(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(obj_dir)
-    for i in zip(target.outdated_inputs, target.outdated_outputs):
-        target.execute([compiler] + cc_flags + [i[0], '-o', i[1]])
-
-library_depends = []
-
-if len(c_files) > 0:
-    library_depends.append(compile_c)
-
-if len(asm_files) > 0:
-    library_depends.append(compile_asm)
+    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
+        target.call([compiler] + cc_flags + [i, '-o', o])
 
 
-@make.target(outputs=exe_target, depends=library_depends)
+@make.task(compile_asm, compile_c, o=exe_target)
 def build_library(target):
     file_helper = pake.FileHelper(target)
     file_helper.makedirs(bin_dir)
-    target.execute(
+    target.call(
     [compiler] + link_flags + target.dependency_outputs + [asm_lib_path, '-o', exe_target]
     )
 
 
-@make.target	
+@make.task	
 def clean(target):
     file_helper = pake.FileHelper(target)
     file_helper.rmtree('bin')
     file_helper.rmtree('obj')
 
 
-pake.run(make, default_targets=build_library)
+pake.run(make, tasks=build_library)
