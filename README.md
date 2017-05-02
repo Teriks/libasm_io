@@ -21,11 +21,21 @@ You may need to force compilation with -fPIC to prevent errors if
 If you encounter an -fPIC related linker error when building the examples
 you can get around it with:
 
-`make examples FPIC=true`
+```
+
+make clean_all
+make examples FPIC=true
+
+```
 
 or:
 
-`pake build_examples -D FPIC`
+```
+
+pake clean_all
+pake build_examples -D FPIC
+
+```
 
 
 # Build with pake
