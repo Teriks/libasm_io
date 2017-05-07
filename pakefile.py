@@ -86,22 +86,22 @@ pake.export('M_AS_FLAGS', m_as_flags)
 
 @make.task(i=os.path.join(inc_dir, 'libasm_io_cdecl_'+c_symbol_underscores+'.inc'),
            o=os.path.join(inc_dir, 'libasm_io_cdecl.inc'))
-def libasm_io_cdecl(target):
-    file_helper = pake.FileHelper(target)
-    file_helper.copy(target.inputs[0], target.outputs[0])
+def libasm_io_cdecl(ctx):
+    file_helper = pake.FileHelper(ctx)
+    file_helper.copy(ctx.inputs[0], ctx.outputs[0])
 
 
 @make.task(i=os.path.join(inc_dir, 'libasm_io_libc_call_'+libc_pic+'.inc'), 
            o=os.path.join(inc_dir, 'libasm_io_libc_call.inc'))
-def libasm_io_libc_call(target):
-    file_helper = pake.FileHelper(target)
-    file_helper.copy(target.inputs[0], target.outputs[0])
+def libasm_io_libc_call(ctx):
+    file_helper = pake.FileHelper(ctx)
+    file_helper.copy(ctx.inputs[0], ctx.outputs[0])
 
 
 @make.task(o=os.path.join(inc_dir, 'libasm_io_defines.inc'))
-def libasm_io_defines(target):
+def libasm_io_defines(ctx):
     abi = subprocess.check_output(['bash', 'platform.sh', 'abi']).decode().strip()
-    with open(target.outputs[0], 'w+') as inc_file:
+    with open(ctx.outputs[0], 'w+') as inc_file:
         print('%define _LIBASM_IO_OBJFMT_{t}_'.format(t=obj_format_upper), file=inc_file)
         print('%define _LIBASM_IO_ABI_{t}_'.format(t=abi), file=inc_file)
         print('%define _LIBASM_IO_PLATFORM_TYPE_{t}_'.format(t=platform_type), file=inc_file)
@@ -109,42 +109,46 @@ def libasm_io_defines(target):
 
 @make.task(libasm_io_cdecl, libasm_io_libc_call, libasm_io_defines,
            i=asm_files, o=asm_objects)
-def compile_asm(target):
-    file_helper = pake.FileHelper(target)
+def compile_asm(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
-    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
-        target.call([assembler] + m_as_flags + [i, '-o', o])
+
+    assembler_args = ([assembler, m_as_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.call, assembler_args))
 
 
 @make.task(i=c_files, o=c_objects)
-def compile_c(target):
-    file_helper = pake.FileHelper(target)
+def compile_c(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
-    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
-        target.call([compiler] + m_cc_flags + ['-c', i, '-o', o])
 
+    compiler_args = ([compiler, m_cc_flags, '-c', i, '-o', o] for i, o in ctx.outdated_pairs)
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.call, compiler_args))
 
 @make.task(compile_asm, compile_c, o=library_target)
-def build_library(target):
+def build_library(ctx):
     """Build the library."""
 
-    file_helper = pake.FileHelper(target)
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(bin_dir)
-    target.call(['ar', 'rcs', library_target]+target.dependency_outputs)
+    ctx.call(['ar', 'rcs', library_target, ctx.dependency_outputs])
 
 
 @make.task(build_library)
-def build_examples(target):
+def build_examples(ctx):
     """Build all of the library examples"""
 
-    for d in glob.glob('examples/*/'):
-        target.subpake('examples/pakefile.py', '-C', d, '-j', pake.get_max_jobs())
+    subpake_args = (['examples/pakefile.py', '-C', d] for d in glob.glob('examples/*/'))
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.subpake, subpake_args))
 
 
 @make.task
-def clean(target):
+def clean(ctx):
     """Clean the library"""
-    file_helper = pake.FileHelper(target)
+    file_helper = pake.FileHelper(ctx)
     file_helper.remove(os.path.join(inc_dir, 'libasm_io_defines.inc'))
     file_helper.remove(os.path.join(inc_dir, 'libasm_io_libc_call.inc'))
     file_helper.remove(os.path.join(inc_dir, 'libasm_io_cdecl.inc'))
@@ -153,11 +157,12 @@ def clean(target):
 
 
 @make.task
-def clean_examples(target):
+def clean_examples(ctx):
     """Clean the library examples."""
 
-    for d in glob.glob('examples/*/'):
-        target.subpake('examples/pakefile.py', 'clean', '-C', d, '-j', pake.get_max_jobs())
+    subpake_args = (['examples/pakefile.py', 'clean', '-C', d] for d in glob.glob('examples/*/'))
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.subpake, subpake_args))
 
 
 @make.task(clean, clean_examples)

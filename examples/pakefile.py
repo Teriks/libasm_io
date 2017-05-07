@@ -31,34 +31,38 @@ as_flags = make.get_define('M_AS_FLAGS', [])
 
 @make.task(i=pake.glob('src/*.asm'), 
            o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
-def compile_asm(target):
-    file_helper = pake.FileHelper(target)
+def compile_asm(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
-    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
-        target.call([assembler] + as_flags + [i, '-o', o])
+
+    assembler_args = ([assembler, as_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.call, assembler_args))
         
 
 @make.task(i=pake.glob('src/*.c'), 
            o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
-def compile_c(target):
-    file_helper = pake.FileHelper(target)
+def compile_c(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
-    for i, o in zip(target.outdated_inputs, target.outdated_outputs):
-        target.call([compiler] + cc_flags + [i, '-o', o])
+
+    compiler_args = ([compiler, cc_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    with ctx.multitask() as mt:
+        list(mt.map(ctx.call, compiler_args))
 
 
 @make.task(compile_asm, compile_c, o=exe_target)
-def build_library(target):
-    file_helper = pake.FileHelper(target)
+def build_library(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(bin_dir)
-    target.call(
-    [compiler] + link_flags + target.dependency_outputs + [asm_lib_path, '-o', exe_target]
+    ctx.call(
+        [compiler, link_flags, ctx.dependency_outputs, asm_lib_path, '-o', exe_target]
     )
 
 
 @make.task	
-def clean(target):
-    file_helper = pake.FileHelper(target)
+def clean(ctx):
+    file_helper = pake.FileHelper(ctx)
     file_helper.rmtree('bin')
     file_helper.rmtree('obj')
 
