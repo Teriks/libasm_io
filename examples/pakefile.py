@@ -29,7 +29,7 @@ cc_flags = make.get_define('M_CC_FLAGS', [])
 as_flags = make.get_define('M_AS_FLAGS', [])
 
 
-@make.task(i=pake.glob('src/*.asm'), 
+@make.task(i=pake.glob('src/*.asm'),
            o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_asm(ctx):
     file_helper = pake.FileHelper(ctx)
@@ -40,7 +40,7 @@ def compile_asm(ctx):
         list(mt.map(ctx.call, assembler_args))
         
 
-@make.task(i=pake.glob('src/*.c'), 
+@make.task(i=pake.glob('src/*.c'),
            o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_c(ctx):
     file_helper = pake.FileHelper(ctx)
@@ -60,7 +60,7 @@ def build_library(ctx):
     )
 
 
-@make.task	
+@make.task
 def clean(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.rmtree('bin')
