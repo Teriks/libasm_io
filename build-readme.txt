@@ -23,8 +23,9 @@ To build this you need to install:
 The build system will auto detect your platform and build the library and examples appropriately for it.
 Supported platforms are:
 
-
+  
   Linux  (Ubuntu, Debian and CentOS Tested so far)
+  Windows (Ubuntu Linux Sub-System for Windows, on Windows 10)
   Darwin (MacOS)
   Cygwin (Windows)
   FreeBSD
