@@ -52,11 +52,11 @@ def compile_c(ctx):
 
 
 @make.task(compile_asm, compile_c, o=exe_target)
-def build_library(ctx):
+def build_example(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(bin_dir)
     ctx.call(
-        [compiler, link_flags, ctx.dependency_outputs, asm_lib_path, '-o', exe_target]
+        compiler, link_flags, ctx.dependency_outputs, asm_lib_path, '-o', exe_target
     )
 
 
@@ -67,4 +67,4 @@ def clean(ctx):
     file_helper.rmtree('obj')
 
 
-pake.run(make, tasks=build_library)
+pake.run(make, tasks=build_example)

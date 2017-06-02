@@ -133,7 +133,7 @@ def build_library(ctx):
 
     file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(bin_dir)
-    ctx.call(['ar', 'rcs', library_target, ctx.dependency_outputs])
+    ctx.call('ar', 'rcs', library_target, ctx.dependency_outputs)
 
 
 @make.task(build_library)
