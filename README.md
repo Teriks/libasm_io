@@ -44,7 +44,7 @@ install python3.4+, python3-pip, nasm and gcc.
 
 install pake (Alpha):
 
-`sudo pip3 install git+git://github.com/Teriks/pake.git@0.9.0.2a1`
+`sudo pip3 install git+git://github.com/Teriks/pake.git@0.9.0.3a1`
 
 change to the root directory.
 
