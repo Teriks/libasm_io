@@ -3,34 +3,34 @@ import glob
 import pake
 
 
-make = pake.init()
+pk = pake.init()
 
 src_dir='src'
 obj_dir='obj'
 bin_dir='bin'
 
 
-assembler = make.get_define('AS', 'nasm')
+assembler = pk.get_define('AS', 'nasm')
 
-compiler = make.get_define('CC', 'cc')
+compiler = pk.get_define('CC', 'cc')
 
-exe_ext = make.get_define('EXE_EXT', '.exe')
+exe_ext = pk.get_define('EXE_EXT', '.exe')
 
 exe_target=os.path.join(bin_dir, 'main'+exe_ext)
 
-obj_ext = make.get_define('OBJ_EXT', '.o')
+obj_ext = pk.get_define('OBJ_EXT', '.o')
 
-link_flags = make.get_define('M_LINK_FLAGS', [])
+link_flags = pk.get_define('M_LINK_FLAGS', [])
 
-asm_lib_path = make.get_define('M_ASM_LIB_PATH', '')
+asm_lib_path = pk.get_define('M_ASM_LIB_PATH', '')
 
-cc_flags = make.get_define('M_CC_FLAGS', [])
+cc_flags = pk.get_define('M_CC_FLAGS', [])
 
-as_flags = make.get_define('M_AS_FLAGS', [])
+as_flags = pk.get_define('M_AS_FLAGS', [])
 
 
-@make.task(i=pake.glob('src/*.asm'),
-           o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
+@pk.task(i=pake.glob('src/*.asm'),
+         o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_asm(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
@@ -40,8 +40,8 @@ def compile_asm(ctx):
         list(mt.map(ctx.call, assembler_args))
         
 
-@make.task(i=pake.glob('src/*.c'),
-           o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
+@pk.task(i=pake.glob('src/*.c'),
+         o=pake.pattern(os.path.join(obj_dir,'%'+obj_ext)))
 def compile_c(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(obj_dir)
@@ -51,7 +51,7 @@ def compile_c(ctx):
         list(mt.map(ctx.call, compiler_args))
 
 
-@make.task(compile_asm, compile_c, o=exe_target)
+@pk.task(compile_asm, compile_c, o=exe_target)
 def build_example(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.makedirs(bin_dir)
@@ -60,11 +60,11 @@ def build_example(ctx):
     )
 
 
-@make.task
+@pk.task
 def clean(ctx):
     file_helper = pake.FileHelper(ctx)
     file_helper.rmtree('bin')
     file_helper.rmtree('obj')
 
 
-pake.run(make, tasks=build_example)
+pake.run(pk, tasks=build_example)
