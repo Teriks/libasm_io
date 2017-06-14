@@ -40,11 +40,11 @@ pake build_examples -D FPIC
 
 # Build with pake
 
-install python3.4+, python3-pip, nasm and gcc.
+install python3.5+, python3-pip, nasm and gcc.
 
 install pake (Alpha):
 
-`sudo pip3 install git+git://github.com/Teriks/pake.git@0.9.0.3a1`
+`sudo pip3 install git+git://github.com/Teriks/pake.git@0.10.0.0a1`
 
 change to the root directory.
 
