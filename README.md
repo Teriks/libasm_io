@@ -44,7 +44,7 @@ install python3.5+, python3-pip, nasm and gcc.
 
 install pake:
 
-`sudo pip3 install python-pake`
+`sudo pip3 install python-pake --upgrade`
 
 change to the root directory.
 
