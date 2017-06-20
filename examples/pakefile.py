@@ -1,6 +1,7 @@
 import os
 import glob
 import pake
+from functools import partial
 
 
 pk = pake.init()
@@ -36,8 +37,10 @@ def compile_asm(ctx):
     file_helper.makedirs(obj_dir)
 
     assembler_args = ([assembler, as_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    sync_call = partial(ctx.call, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.call, assembler_args))
+        list(mt.map(sync_call, assembler_args))
         
 
 @pk.task(i=pake.glob('src/*.c'),
@@ -47,8 +50,10 @@ def compile_c(ctx):
     file_helper.makedirs(obj_dir)
 
     compiler_args = ([compiler, cc_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    sync_call = partial(ctx.call, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.call, compiler_args))
+        list(mt.map(sync_call, compiler_args))
 
 
 @pk.task(compile_asm, compile_c, o=exe_target)

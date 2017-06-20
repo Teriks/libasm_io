@@ -3,7 +3,7 @@ import pake
 import glob
 from pake import process
 from pake import returncodes
-
+from functools import partial
 
 pk = pake.init()
 
@@ -112,8 +112,10 @@ def compile_asm(ctx):
     file_helper.makedirs(obj_dir)
 
     assembler_args = ([assembler, m_as_flags, i, '-o', o] for i, o in ctx.outdated_pairs)
+    sync_call = partial(ctx.call, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.call, assembler_args))
+        list(mt.map(sync_call, assembler_args))
 
 
 @pk.task(i=c_files, o=c_objects)
@@ -122,8 +124,10 @@ def compile_c(ctx):
     file_helper.makedirs(obj_dir)
 
     compiler_args = ([compiler, m_cc_flags, '-c', i, '-o', o] for i, o in ctx.outdated_pairs)
+    sync_call = partial(ctx.call, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.call, compiler_args))
+        list(mt.map(sync_call, compiler_args))
 
 
 @pk.task(compile_asm, compile_c, o=library_target)
@@ -140,8 +144,10 @@ def build_examples(ctx):
     """Build all of the library examples"""
 
     subpake_args = (['examples/pakefile.py', '-C', d] for d in glob.glob('examples/*/'))
+    sync_subpake = partial(ctx.subpake, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.subpake, subpake_args))
+        list(mt.map(sync_subpake, subpake_args))
 
 
 @pk.task
@@ -159,10 +165,11 @@ def clean(ctx):
 @pk.task
 def clean_examples(ctx):
     """Clean the library examples."""
-
     subpake_args = (['examples/pakefile.py', 'clean', '-C', d] for d in glob.glob('examples/*/'))
+    sync_subpake = partial(ctx.subpake, collect_output=pk.max_jobs > 1)
+    
     with ctx.multitask() as mt:
-        list(mt.map(ctx.subpake, subpake_args))
+        list(mt.map(sync_subpake, subpake_args))
 
 
 @pk.task(clean, clean_examples)
