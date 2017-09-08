@@ -30,7 +30,7 @@ Use:
 
 ```
 (full make command) AS=yasm
-``
+```
 	  
 
 # Supported Platforms
@@ -40,23 +40,23 @@ The build system will auto detect your platform and build the library and exampl
 Supported platforms are:
 
   
-  Linux  (Ubuntu, Debian and CentOS Tested so far)
-  Windows (Ubuntu Linux Sub-System for Windows, on Windows 10)
-  Darwin (MacOS)
-  Cygwin (Windows)
-  FreeBSD
-  NetBSD
-  OpenBSD
-  GhostBSD
+* Linux  (Ubuntu, Debian and CentOS Tested so far)
+* Windows (Ubuntu Linux Sub-System for Windows, on Windows 10)
+* Darwin (MacOS)
+* Cygwin (Windows)
+* FreeBSD
+* NetBSD
+* OpenBSD
+* GhostBSD
   
 # gmake Workaround on BSD platforms
 
 You will need to install 'gmake' (GNU Make) and use it instead of 'make' on these platforms:
 
-  FreeBSD
-  NetBSD
-  OpenBSD
-  GhostBSD
+* FreeBSD
+* NetBSD
+* OpenBSD
+* GhostBSD
 	
 This is because these platforms use BSD make, which in some aspects is incompatible with GNU make
 if you just use the systems default 'make' command on these platforms, you will get a lot of make
