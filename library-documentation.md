@@ -266,7 +266,7 @@ It's useful because Mac will expect **'_main'** as the entry point, while Window
 ## call_libc
 
 
-When linking with GCC using its default linker parameters, some platforms require you to use **'WRT ..plt'**
+When linking with GCC using its default linker parameters, some platforms require you to use ```WRT ..plt```
 after function calls to call dynamically into the Standard C Library.
 The extra syntax generates code to call the function using the 'procedure linkage table'.
 
@@ -279,7 +279,7 @@ call printf WRT ..plt
 ```
 
 The libc_call macro just helps keep calls into the standard C library portable across platforms, 
-it's a macro that will add **'WTR ..plt'** after a call if its required on the platform you compiled this library for.
+it's a macro that will add ```WTR ..plt``` after a call if its required on the platform you compiled this library for.
 
 You use it like this:
 
