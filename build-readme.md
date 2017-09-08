@@ -1,23 +1,35 @@
-To build this you need to install:
+# Build Requirements
 
-  gcc:   
-    or clang, or any gcc option compatible compiler, 
-    the build system uses the cc command, which is usually the systems default compiler.
+## gcc 
+  
+Or clang, or any gcc option compatible compiler.
 
-    you can change compilers at build time if needed by using: (full make command) CC=compiler
+The build system uses the cc command, which is usually the systems default compiler.
+
+you can change compilers at build time if needed by using: (full make command) CC=compiler
 
 
-  nasm  (if your using MAC, use the newer version from MAC ports)
+## nasm  
 
-  make  (or gmake depending on platform, see below)
+If your using MAC, use the newer version from MAC ports.
+
+## make  
+
+Or gmake depending on platform, see below.
 	
 	
-  Note: 
-    The build is compatible with the yasm assembler,  so if you have it installed and want to use it instead;
-    use: (full make command) AS=yasm
+### Note:
+
+The build is compatible with the yasm assembler,  so if you have it installed and want to use it instead;
+
+Use: 
+
+```
+(full make command) AS=yasm
+``
 	  
 
-
+# Supported Platforms
 
 
 The build system will auto detect your platform and build the library and examples appropriately for it.
@@ -32,9 +44,8 @@ Supported platforms are:
   NetBSD
   OpenBSD
   GhostBSD
-	
-==================================
-
+  
+# gmake Workaround on BSD platforms
 
 You will need to install 'gmake' (GNU Make) and use it instead of 'make' on these platforms:
 
@@ -47,26 +58,35 @@ This is because these platforms use BSD make, which in some aspects is incompati
 if you just use the systems default 'make' command on these platforms, you will get a lot of make
 syntax errors.
 	
-==================================
+# Building The Library
+
+To build the library by itself, just run this in the source directory:
+
+```bash
+make
+```
 
 
+## Clean the library by itself
+
+```bash
+make clean
+```
 
 
-Build the library by itself:
-'make'
+## Install the library (On Cygwin, you do not need sudo)
 
 
-Clean the library by itself:
-'make clean'
-
-
-
-Install the library (On Cygwin, you do not need sudo):
-'sudo make install'
+```bash
+sudo make install
+```
 
 
 
 The following are installed:
+
+
+```
 
 (Library object) -> /usr/lib/libasm_io.a
 
@@ -77,13 +97,15 @@ The following are installed:
 	/usr/local/include/libasm_io_libc_call.inc
 	/usr/local/include/libasm_io_defines.inc
 
+```
 
 
+## Build the library with all examples
 
-						
-						
-Build the library with all examples:
-'make examples'
+
+```bash
+make examples
+```
 
 
 Note: 
@@ -93,14 +115,20 @@ Note:
 
 
 
-Clean the examples:
-'make clean_examples'
+## Clean the examples
+
+```bash
+make clean_examples
+```
 
 
 
 
-Clean the library and the examples:
-'make clean_all'
+## Clean the library and the examples
+
+```bash
+111make clean_all
+```
 
 
 

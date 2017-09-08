@@ -6,11 +6,11 @@ It was written to assist students learning Intel style assembly language.  The A
 
 # Library Documentation
 
-see: [library-documentation.txt](/library-documentation.txt)
+see: [library-documentation.md](/library-documentation.md)
 
 # (Make) Build Instructions
 
-see: [build-readme.txt](/build-readme.txt)
+see: [build-readme.md](/build-readme.md)
 
 
 # Note About -fPIC
