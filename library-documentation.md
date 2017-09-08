@@ -50,7 +50,7 @@ All examples in this library are programmed with 16 byte stack alignment for sou
 Once the library is installed, you can include **"/usr/local/include/libasm_io.inc"** in your program
 to include the function definitions from the library.
 
-you must also use "-lasm_io" to link the library when you are linking all of your object files together
+you must also use **"-lasm_io"** to link the library when you are linking all of your object files together
 so that the linker knows it needs to link libasm_io.a to the program.
 
 
