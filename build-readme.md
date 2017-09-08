@@ -57,7 +57,7 @@ You will need to install 'gmake' (GNU Make) and use it instead of 'make' on thes
 * GhostBSD
 	
 This is because these platforms use BSD make, which in some aspects is incompatible with GNU make
-if you just use the systems default 'make' command on these platforms, you will get a lot of make
+if you just use the systems default **'make'** command on these platforms, you will get a lot of make
 syntax errors.
 	
 # Building The Library
@@ -110,11 +110,8 @@ make examples
 ```
 
 
-Note: 
- The executable for each compiled example is located at examples/{example name}/bin/main
- in the examples folder under the top directory of libasm_io.
-
-
+**Note:** The executable for each compiled example is located at **"examples/{example name}/bin/main"** 
+in the examples folder under the top directory of **libasm_io**.
 
 
 ## Clean the examples
@@ -122,8 +119,6 @@ Note:
 ```bash
 make clean_examples
 ```
-
-
 
 
 ## Clean the library and the examples
