@@ -54,8 +54,8 @@ You can also specify a compiler or nasm compatible assembler using pake defines:
 
 # Note About -fPIC
 
-You may need to force compilation with -fPIC to prevent errors if
-./platform.sh does not guess it correctly.
+You may need to force compilation with **-fPIC** to prevent errors if
+**./platform.sh** does not guess it correctly.
 
 If you encounter an -fPIC related linker error when building the examples
 you can get around it with:
