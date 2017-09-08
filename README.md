@@ -42,7 +42,7 @@ build_library:   Build the library.
 
 ```
 
-Running `pake` will run the default target "build_library".
+Running `pake` will run the default target **"build_library"**.
 
 Running `pake build_examples` will build the library and examples together.
 
