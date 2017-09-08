@@ -279,7 +279,7 @@ call printf WRT ..plt
 ```
 
 The libc_call macro just helps keep calls into the standard C library portable across platforms, 
-it's a macro that will add **'WTR ..plt'** after a call if its required on the platform you compiled this library for.
+it's a macro that will add **'WTR ..plt'** after a call if it's required on the platform you compiled this library for.
 
 You use it like this:
 
