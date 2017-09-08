@@ -353,7 +353,7 @@ print_char (RDI ascii_code)
 
 
 Read a string from console input, and put a pointer to it in RAX.
-When you are done with the string, you must call free_mem (mov the value from RAX into RDI and call free_mem)
+When you are done with the string, you must call **'free_mem'** (mov the value from RAX into RDI and call **'free_mem'**)
 to free up the dynamical allocated memory used for the string.
 
 
@@ -367,7 +367,7 @@ RAX <- read_string
 
 Read a file as a string into memory, and return the pointer to the string in RAX.
 The RDI register should point to a null terminated string containing a file name before the call.
-Ehen your done with the returned string, you need to call **'free_mem'** on it to dispose of the allocated memory.
+When your done with the returned string, you need to call **'free_mem'** on it to dispose of the allocated memory.
 
 read_file will return 0 in RAX if the file could not be opened, if the file is empty, 
 it will point to an empty string and you will still have to call **'free_mem'** on it.
