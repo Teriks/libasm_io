@@ -13,31 +13,6 @@ see: [library-documentation.md](/library-documentation.md)
 see: [build-readme.md](/build-readme.md)
 
 
-# Note About -fPIC
-
-You may need to force compilation with -fPIC to prevent errors if
-./platform.sh does not guess it correctly.
-
-If you encounter an -fPIC related linker error when building the examples
-you can get around it with:
-
-```
-
-make clean_all
-make examples FPIC=true
-
-```
-
-or:
-
-```
-
-pake clean_all
-pake build_examples -D FPIC
-
-```
-
-
 # Build with pake
 
 install python3.5+, python3-pip, nasm and gcc.
@@ -75,5 +50,30 @@ Running `pake build_examples` will build the library and examples together.
 You can also specify a compiler or nasm compatible assembler using pake defines:
 
 `pake -D CC=clang -D AS=(your assembler)`
+
+
+# Note About -fPIC
+
+You may need to force compilation with -fPIC to prevent errors if
+./platform.sh does not guess it correctly.
+
+If you encounter an -fPIC related linker error when building the examples
+you can get around it with:
+
+```
+
+make clean_all
+make examples FPIC=true
+
+```
+
+or:
+
+```
+
+pake clean_all
+pake build_examples -D FPIC
+
+```
 
 
