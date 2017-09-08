@@ -6,7 +6,11 @@ Or clang, or any gcc option compatible compiler.
 
 The build system uses the cc command, which is usually the systems default compiler.
 
-you can change compilers at build time if needed by using: (full make command) CC=compiler
+You can change compilers at build time if needed by using: 
+
+```
+(full make command) CC=compiler
+```
 
 
 ## nasm  
