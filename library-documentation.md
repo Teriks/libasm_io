@@ -1,4 +1,4 @@
-All functions in the library use the System V AMD64 ABI calling convention, even on Windows
+All functions in the library use the System V AMD64 ABI calling convention, even on Windows.
 
 The parameter order for integral values is:
 
@@ -25,7 +25,7 @@ using the System V AMD64 ABI is:
 Additional parameters are passed in order on the stack.
 
 
-Any functions that return integral/pointer values will return the value in the RAX register
+Any functions that return integral/pointer values will return the value in the RAX register.
 
 
 The functions in this library will not save your registers before they are used,
@@ -34,15 +34,15 @@ then restore them afterwards.
 
 
 **Note:** due to stack alignment requirements on Windows (RSP is required to be aligned to 16 bytes),
-use of push and pop in Windows assembly will break your program.  on Windows, instead of using push
+use of push and pop in Windows assembly will break your program.  On Windows, instead of using push
 and pop, allocate all the space you need on the stack and use it to save registers when needed.
 
-Make sure the space you allocated on the stack is a size in bytes that is divisible evenly by 16 (AKA: Aligned to 16 bytes)
-And also, when programming on Windows; Windows will expect any function that calls other functions to
-have at least 32 bytes on the stack regardless of whether it is needed or not 
+Make sure the space you allocated on the stack is a size in bytes that is divisible evenly by 16 (AKA: Aligned to 16 bytes).
+Also, Windows will expect any function that calls other functions to have at least 32 bytes on the stack regardless of 
+whether it is needed or not 
 
 
-All examples in this library are programmed with 16 byte stack alignment for source compatibility with Windows (Cygwin)
+All examples in this library are programmed with 16 byte stack alignment for source compatibility with Windows (Cygwin).
 
 
 # Linking to the library
@@ -85,7 +85,7 @@ IO library,  It just uses 'main' for its entry point like a C program.
 
 This allows you to write a 'main' function in C, then link functions/objects written
 in assembly that use this library to your compiled C objects;  without the library creating a duplicate
-symbol definition for 'main' (causing the linker to throw errors)
+symbol definition for 'main' (causing the linker to throw errors).
 
 
 'main' is called by the C runtime, therefore it is a function called from C code.
@@ -150,9 +150,8 @@ _LIBASM_IO_OBJFMT_MACHO64_
 
 ## _LIBASM_IO_ABI_{ABI Specification}_
 
-This define indicates the ABI specification used on the current platform
-the ABI determines how the compiler passes parameters to C functions (Calling convention)
-among other things.
+This define indicates the ABI specification used on the current platform.
+The ABI determines how the compiler passes parameters to C functions (calling convention), among other things.
 
 
 ```asm
@@ -172,8 +171,8 @@ _LIBASM_IO_ABI_SYSTEMV_
 
 ## _LIBASM_IO_PLATFORM_TYPE_{Platform Type}_
 
-This define indicates the ABI Specification used on the current platform
-the ABI determines how the compiler passes parameters to C functions, among other things.
+This define indicates the ABI Specification used on the current platform.
+The ABI determines how the compiler passes parameters to C functions (calling convention), among other things.
 
 
 ```asm
@@ -203,7 +202,7 @@ _LIBASM_IO_PLATFORM_TYPE_DARWIN_
 ## cextern
 
 
-macro helper for externing functions compiled in C.  It may or may not add a leading underscore
+Macro helper for externing functions compiled in C.  It may or may not add a leading underscore
 to the label being externed, and then define the label name as being equal to the resulting value.
 
 example: 
@@ -227,11 +226,11 @@ extern mycfunction
 ```
 
 
-depending on your platform, GCC may add underscores to function names when it compiles C code to object files.
-the cextern macro of this library will add an underscore to the name for you if it needs one so you don't
-have to worry about it.  It helps keep extern portable across different platforms
+Depending on your platform, GCC may add underscores to function names when it compiles C code to object files.
+The cextern macro of this library will add an underscore to the name for you if it needs one so you don't
+have to worry about it.  It helps keep extern portable across different platforms.
 
-Windows and Linux do not add the underscore by default while compiling C files, while Mac does
+Windows and Linux do not add the underscore by default while compiling C files, while Mac does.
 
 
 ## cglobal
@@ -261,7 +260,7 @@ global main
 
 depending on your platform...
 
-It's useful because Mac will expect '_main' as the entry point, while Windows and Linux will expect 'main'
+It's useful because Mac will expect '_main' as the entry point, while Windows and Linux will expect 'main'.
 
 
 ## call_libc
@@ -269,7 +268,7 @@ It's useful because Mac will expect '_main' as the entry point, while Windows an
 
 When linking with GCC using its default linker parameters, some platforms require you to use 'WRT ..plt' 
 after function calls to call dynamically into the Standard C Library.
-The extra syntax generates code to call the function using the 'procedure linkage table'
+The extra syntax generates code to call the function using the 'procedure linkage table'.
 
 For example:
 
@@ -290,7 +289,7 @@ call_libc printf
 
 ```
 
-**Note:** calling conventions/parameter passing will still vary across platform for raw C functions in general
+**Note:** calling conventions/parameter passing will still vary across platform for raw C functions in general.
 
 # Library Functions
 
@@ -366,9 +365,9 @@ RAX <- read_string
 ## read_file
 
 
-read a file as a string into memory, and return the pointer to the string in RAX.
+Read a file as a string into memory, and return the pointer to the string in RAX.
 The RDI register should point to a null terminated string containing a file name before the call.
-when your done with the returned string, you need to call 'free_mem' on it to dispose of the allocated memory.
+Ehen your done with the returned string, you need to call 'free_mem' on it to dispose of the allocated memory.
 
 read_file will return 0 in RAX if the file could not be opened, if the file is empty, 
 it will point to an empty string and you will still have to call 'free_mem' on it.
