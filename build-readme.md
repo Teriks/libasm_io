@@ -22,9 +22,7 @@ If your using MAC, use the newer version from MAC ports.
 Or gmake depending on platform, see below.
 	
 	
-### Note:
-
-The build is compatible with the yasm assembler,  so if you have it installed and want to use it instead;
+**Note:** The build is compatible with the yasm assembler,  so if you have it installed and want to use it instead;
 
 Use: 
 
