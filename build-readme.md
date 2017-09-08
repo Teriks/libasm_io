@@ -129,7 +129,7 @@ make clean_examples
 ## Clean the library and the examples
 
 ```bash
-111make clean_all
+make clean_all
 ```
 
 
