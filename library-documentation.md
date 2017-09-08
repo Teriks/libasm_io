@@ -47,7 +47,7 @@ All examples in this library are programmed with 16 byte stack alignment for sou
 
 # Linking to the library
 
-Once the library is installed, you can include "/usr/local/include/libasm_io.inc" in your program
+Once the library is installed, you can include **"/usr/local/include/libasm_io.inc"** in your program
 to include the function definitions from the library.
 
 you must also use "-lasm_io" to link the library when you are linking all of your object files together
@@ -79,17 +79,17 @@ gcc my_program.o -lasm_io -o my_program
 
 
 
-The library does not use a stub entry point, such as 'asm_main' as in Dr. Paul Carters
-IO library,  It just uses 'main' for its entry point like a C program.
+The library does not use a stub entry point, such as **'asm_main'** as in Dr. Paul Carters
+IO library,  It just uses **'main'** for its entry point like a C program.
 
 
-This allows you to write a 'main' function in C, then link functions/objects written
+This allows you to write a **'main'** function in C, then link functions/objects written
 in assembly that use this library to your compiled C objects;  without the library creating a duplicate
-symbol definition for 'main' (causing the linker to throw errors).
+symbol definition for **'main'** (causing the linker to throw errors).
 
 
-'main' is called by the C runtime, therefore it is a function called from C code.
-You should use the library macro 'cglobal' to define 'main' as a global symbol for portability.
+**'main'** is called by the C runtime, therefore it is a function called from C code.
+You should use the library macro **'cglobal'** to define **'main'** as a global symbol for portability.
 
 like so:
 
@@ -99,7 +99,7 @@ cglobal main
 
 ```
 
-All the 'cglobal' macro does is put an underscore in front of the symbol name 'main'
+All the **'cglobal'** macro does is put an underscore in front of the symbol name **'main'**
 if your platforms compiler puts underscores in front of functions compiled in C.
  
 (like MacOS's compiler does by default)
@@ -116,7 +116,7 @@ It also creates a define, like:
 if needed.
 
 
-So you can reference the symbol as 'main' no matter what platform you are on (when you use the cglobal macro).
+So you can reference the symbol as **'main'** no matter what platform you are on (when you use the cglobal macro).
 
 
 # Library Defines
@@ -260,13 +260,13 @@ global main
 
 depending on your platform...
 
-It's useful because Mac will expect '_main' as the entry point, while Windows and Linux will expect 'main'.
+It's useful because Mac will expect **'_main'** as the entry point, while Windows and Linux will expect **'main'**.
 
 
 ## call_libc
 
 
-When linking with GCC using its default linker parameters, some platforms require you to use 'WRT ..plt' 
+When linking with GCC using its default linker parameters, some platforms require you to use **'WRT ..plt'**
 after function calls to call dynamically into the Standard C Library.
 The extra syntax generates code to call the function using the 'procedure linkage table'.
 
@@ -279,7 +279,7 @@ call printf WRT ..plt
 ```
 
 The libc_call macro just helps keep calls into the standard C library portable across platforms, 
-it's a macro that will add 'WTR ..plt' after a call if its required on the platform you compiled this library for.
+it's a macro that will add **'WTR ..plt'** after a call if its required on the platform you compiled this library for.
 
 You use it like this:
 
@@ -367,11 +367,11 @@ RAX <- read_string
 
 Read a file as a string into memory, and return the pointer to the string in RAX.
 The RDI register should point to a null terminated string containing a file name before the call.
-Ehen your done with the returned string, you need to call 'free_mem' on it to dispose of the allocated memory.
+Ehen your done with the returned string, you need to call **'free_mem'** on it to dispose of the allocated memory.
 
 read_file will return 0 in RAX if the file could not be opened, if the file is empty, 
-it will point to an empty string and you will still have to call 'free_mem' on it.
-If read_file returns 0, do not call 'free_mem' on the return value.
+it will point to an empty string and you will still have to call **'free_mem'** on it.
+If read_file returns 0, do not call **'free_mem'** on the return value.
 
 
 ```
@@ -404,7 +404,7 @@ RAX <- append_file (RDI ptr_to_string_filename, RSI ptr_to_string_data)
 ## alloc_mem
 
 
-Allocate dynamic memory (Byte count in RDI, returned Pointer in RAX), this is just a stub for the C library call 'malloc'.
+Allocate dynamic memory (Byte count in RDI, returned Pointer in RAX), this is just a stub for the C library call **'malloc'**.
 
 ```
 RAX <- alloc_mem (RDI byte_count)
@@ -413,7 +413,7 @@ RAX <- alloc_mem (RDI byte_count)
 ## free_mem
 
 
-Free dynamic memory at the pointer in RDI, this is just a stub for the C library call 'free'.
+Free dynamic memory at the pointer in RDI, this is just a stub for the C library call **'free'**.
 
 ```
 free_mem (RDI pointer_to_allocated_memory)
