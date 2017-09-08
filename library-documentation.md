@@ -33,7 +33,7 @@ so you should put registers your using on the stack before you call any function
 then restore them afterwards.
 
 
-Note: due to stack alignment requirements on Windows (RSP is required to be aligned to 16 bytes),
+**Note:** due to stack alignment requirements on Windows (RSP is required to be aligned to 16 bytes),
 use of push and pop in Windows assembly will break your program.  on Windows, instead of using push
 and pop, allocate all the space you need on the stack and use it to save registers when needed.
 
@@ -290,7 +290,7 @@ call_libc printf
 
 ```
 
-Note: calling conventions/parameter passing will still vary across platform for raw C functions in general
+**Note:** calling conventions/parameter passing will still vary across platform for raw C functions in general
 
 # Library Functions
 
