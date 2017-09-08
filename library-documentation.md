@@ -2,25 +2,25 @@ All functions in the library use the System V AMD64 ABI calling convention, even
 
 The parameter order for integral values is:
 
-  rdi
-  rsi
-  rdx
-  rcx
-  r8
-  r9
+* rdi
+* rsi
+* rdx
+* rcx
+* r8
+* r9
 
 There are no floating point parameters used in this library, however
 the register order for floating point arguments while calling functions 
 using the System V AMD64 ABI is:
 
-  XMM0
-  XMM1
-  XMM2
-  XMM3
-  XMM4
-  XMM5
-  XMM6
-  XMM7
+* XMM0
+* XMM1
+* XMM2
+* XMM3
+* XMM4
+* XMM5
+* XMM6
+* XMM7
 
 Additional parameters are passed in order on the stack.
 
