@@ -41,7 +41,7 @@ if platform_type == 'NIX':
     link_flags=['-no-pie']
 elif platform_type == 'DARWIN':
     c_symbol_underscores='underscore'
-    link_flags=['-W1','-lc','-no-pie']
+    link_flags=['-W1','-lc','-no_pie']
     obj_format='macho64'
 elif platform_type == 'CYGWIN':
     obj_ext='.obj'
@@ -81,6 +81,7 @@ pake.export('EXE_EXT', exe_ext)
 pake.export('M_ASM_LIB_PATH', m_asm_lib_path)
 pake.export('M_CC_FLAGS', m_cc_flags)
 pake.export('M_AS_FLAGS', m_as_flags)
+pake.export('M_LINK_FLAGS', link_flags)
 
 
 @pk.task(i=os.path.join(inc_dir, 'libasm_io_cdecl_'+c_symbol_underscores+'.inc'),
