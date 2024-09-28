@@ -74,7 +74,7 @@ ifeq ($(PLATFORM_TYPE),NIX)
 
   export OBJ_FORMAT=elf64
   export AS=nasm
-
+  export M_LINK_FLAGS:= -no-pie
   
 else ifeq ($(PLATFORM_TYPE),DARWIN)
 
