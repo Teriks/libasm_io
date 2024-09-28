@@ -38,6 +38,7 @@ exe_ext = ''
 if platform_type == 'NIX':
     obj_format='elf64'
     assembler='nasm'
+    link_flags=['-no-pie']
 elif platform_type == 'DARWIN':
     c_symbol_underscores='underscore'
     link_flags=['-W1','-lc','-no-pie']
